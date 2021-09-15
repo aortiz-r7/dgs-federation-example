@@ -1,6 +1,15 @@
+type Query {
+    test: Test
+}
+
 type Show @key(fields: "id") @extends {
     id: ID @external
     reviews: [Review]
+}
+
+type Test {
+    name: String
+    shows: [Show]
 }
 
 type Review {

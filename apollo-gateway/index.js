@@ -21,8 +21,11 @@ const gateway = new ApolloGateway({
     serviceList: [
         { name: 'shows', url: 'http://localhost:8080/graphql' },
         { name: 'reviews', url: 'http://localhost:8081/graphql' },
-    ]
+    ],
+    debug: true,
 });
 
 const server = new ApolloServer({ gateway, subscriptions:false, tracing:true });
-server.listen();
+server.listen().then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
+});

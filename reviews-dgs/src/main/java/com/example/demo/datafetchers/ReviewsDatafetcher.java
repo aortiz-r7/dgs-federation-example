@@ -4,15 +4,20 @@ import com.example.demo.generated.types.Review;
 import com.example.demo.generated.types.Show;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
+import com.netflix.graphql.dgs.context.DgsContext;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsEntityFetcher;
 
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @DgsComponent
 public class ReviewsDatafetcher {
+
+    private static Logger LOGGER = Logger.getLogger(ReviewsDatafetcher.class.getName());
 
     Map<String, List<Review>> reviews = new HashMap<>();
 
@@ -36,7 +41,20 @@ public class ReviewsDatafetcher {
 
     @DgsData(parentType = "Show", field = "reviews")
     public List<Review> reviewsFetcher(DgsDataFetchingEnvironment dataFetchingEnvironment)  {
+        LOGGER.log(Level.INFO, "********************************");
+        LOGGER.log(Level.INFO, "TESTING");
+        LOGGER.log(Level.INFO, dataFetchingEnvironment.toString());
+        LOGGER.log(Level.INFO, DgsContext.getRequestData(dataFetchingEnvironment).toString());
+        LOGGER.log(Level.INFO, dataFetchingEnvironment.getVariables().toString());
+        LOGGER.log(Level.INFO, dataFetchingEnvironment.getArguments().toString());
+
+        // possibly a request param
+
+        // LOGGER.log(Level.INFO, dataFetchingEnvironment.getContext);
+        // LOGGER.log(Level.INFO, dataFetchingEnvironment.getVariables());
         Show show = dataFetchingEnvironment.getSource();
+        LOGGER.log(Level.INFO, show.toString());
+        LOGGER.log(Level.INFO, "********************************");
         return reviews.get(show.getId());
     }
 }
